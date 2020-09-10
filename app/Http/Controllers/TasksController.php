@@ -16,7 +16,7 @@ class TasksController extends Controller
     public function index()
     {
         //タスクの一覧を取得
-        $tasks = Task::all();
+        $tasks = Task::orderBy('id', 'desc')->paginate(25);
         
         //タスク一覧ビューでそれを表示
         return view('tasks.index', [
@@ -47,8 +47,14 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
+        //バリデーション
+        $request->validate([
+            'status' => 'required|max:10'
+        ]);
+        
         //タスクを作成
         $task = new Task;
+        $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
         
@@ -99,9 +105,15 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //バリデーション
+        $request->validate([
+            'status' => 'required|max:10'
+        ]);
+        
         //idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
         //タスクを更新
+        $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
         
