@@ -13,23 +13,15 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() //コピペ
+    public function index()
     {
-        $data = [];
-                if (\Auth::check()) { // 認証済みの場合
-                    // 認証済みユーザを取得
-                    $user = \Auth::user();
-                    // ユーザの投稿の一覧を作成日時の降順で取得
-                    $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+        //タスクの一覧を取得
+        $tasks = Task::orderBy('id', 'desc')->paginate(25);
         
-                    $data = [
-                        'user' => $user,
-                        'microposts' => $microposts,
-                    ];
-                }
-        
-                // Welcomeビューでそれらを表示
-                return view('welcome', $data);
+        //タスク一覧ビューでそれを表示
+        return view('tasks.index', [
+            'tasks' => $tasks,
+            ]);
     }
 
     /**
@@ -53,20 +45,22 @@ class TasksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) //コピペ
+    public function store(Request $request)
     {
-        // バリデーション
+        //バリデーション
         $request->validate([
+            'status' => 'required|max:10',
             'content' => 'required|max:255',
         ]);
-
-        // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
-        $request->user()->microposts()->create([
-            'content' => $request->content,
-        ]);
-
-        // 前のURLへリダイレクトさせる
-        return back();
+        
+        //タスクを作成
+        $task = new Task;
+        $task->status = $request->status;
+        $task->content = $request->content;
+        $task->save();
+        
+        //トップページへリダイレクトさせる
+        return redirect('/');
     }
 
     /**
@@ -135,17 +129,14 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) //コピペ
+    public function destroy($id)
     {
-        // idの値で投稿を検索して取得
-        $micropost = \App\Micropost::findOrFail($id);
-
-        // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
-        if (\Auth::id() === $micropost->user_id) {
-            $micropost->delete();
-        }
-
-        // 前のURLへリダイレクトさせる
-        return back();
+        //idの値でタスクを検索して取得
+        $task = Task::findOrFail($id);
+        //メッセージを削除
+        $task->delete();
+        
+        //トップページへリダイレクトさせる
+        return redirect('/');
     }
 }
