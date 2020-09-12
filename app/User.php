@@ -36,4 +36,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function tasklists()
+    {
+        return $this->hasMany(Tasklist::class);
+    }
+    
+    public function loadRelationshipCounts()
+    {
+        $this->loadCount('tasklists');
+    }
 }
