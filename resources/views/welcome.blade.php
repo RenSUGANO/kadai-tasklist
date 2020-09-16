@@ -2,14 +2,15 @@
 
 @section('content')
     @if (Auth::check())
-        <div class="row">
-            <div class="col-sm-8">
-                {{-- 投稿フォーム --}}
-                @include('tasks.form')
-                {{-- 投稿一覧 --}}
-                @include('tasks.tasks')
-            </div>
-        </div>
+        @include('tasks.index')
+        <!--<div class="row">-->
+        <!--    <div class="col-sm-8">-->
+        <!--        {{-- 投稿フォーム --}}-->
+        <!--        @include('tasks.form')-->
+        <!--        {{-- 投稿一覧 --}}-->
+        <!--        @include('tasks.tasks')-->
+        <!--    </div>-->
+        <!--</div>-->
     @else
         <div class="center jumbotron">
             <div class="text-center">

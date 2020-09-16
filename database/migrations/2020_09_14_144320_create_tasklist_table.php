@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTasklistsTable extends Migration
+class CreateTaskTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateTasklistsTable extends Migration
     public function up()
     {
         Schema::create('tasks', function (Blueprint $table) {
-            // 上、'task'かも？
+
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('content');
