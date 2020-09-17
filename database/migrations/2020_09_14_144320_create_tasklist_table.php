@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTaskTable extends Migration
+class CreateTasklistTable extends Migration
 {
     /**
      * Run the migrations.
@@ -33,7 +33,6 @@ class CreateTaskTable extends Migration
     public function down()
     {
         Schema::dropIfExists('tasks');
-        // 上、'task'かも？
         
         // 外部キー制約の削除
         $table->dropForeign('tasks_user_id_foreign');

@@ -19,6 +19,7 @@ class TasksController extends Controller
         if (\Auth::check()) {
             $user = \Auth::user();
             $tasks = $user->tasks()->orderBy('id', 'desc')->paginate(10);
+            //$tasks = \Auth::user()->tasks()...と書くこともできる
 
 
 
