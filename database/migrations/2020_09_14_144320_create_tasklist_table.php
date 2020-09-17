@@ -18,6 +18,7 @@ class CreateTasklistTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('content');
+            $table->string('status', 10);
             $table->timestamps();
             
             //外部キー制約
@@ -34,7 +35,7 @@ class CreateTasklistTable extends Migration
     {
         Schema::dropIfExists('tasks');
         
-        // 外部キー制約の削除
-        $table->dropForeign('tasks_user_id_foreign');
+        // // 外部キー制約の削除
+        // $table->dropForeign('tasks_user_id_foreign');
     }
 }
